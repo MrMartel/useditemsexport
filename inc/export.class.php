@@ -278,7 +278,7 @@ class PluginUseditemsexportExport extends CommonDBTM {
          <table>
             <tr>
                <td style="border: 1px solid #000000; text-align: center; width: 100%; font-size: 15pt; height: 8mm;">
-			   Matériel affecté à <?php echo $User->getRawName(); ?>
+			   Matériel affecté à <?php echo $User->getRawName(); ?> au <?php echo date(d); ?>/<?php echo date(m); ?>/<?php echo date(Y); ?>
                </td>
             </tr>
          </table>
