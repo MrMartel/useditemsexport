@@ -283,7 +283,7 @@ class PluginUseditemsexportExport extends CommonDBTM {
             </tr>
          </table>
 
-         <br><br><br><br><br>
+         <br><br><br>
          <table>
             <tr>
                <th style="width: 25%;">
