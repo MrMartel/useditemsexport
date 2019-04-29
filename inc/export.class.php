@@ -278,7 +278,7 @@ class PluginUseditemsexportExport extends CommonDBTM {
          <table>
             <tr>
                <td style="border: 1px solid #000000; text-align: center; width: 100%; font-size: 15pt; height: 8mm;">
-                  <?php echo __('Asset export ref : ', 'useditemsexport') . $refnumber; ?>
+			   Matériel affecté à <?php echo $User->getRawName(); ?>
                </td>
             </tr>
          </table>
@@ -286,18 +286,20 @@ class PluginUseditemsexportExport extends CommonDBTM {
          <br><br><br><br><br>
          <table>
             <tr>
+               <th style="width: 25%;">
+                  <?php echo __('Type'); ?>
+               </th>
+               <th style="width: 25%;">
+                  <?php echo __('Name'); ?>
+               </th>
               <th style="width: 25%;">
                   <?php echo __('Serial number'); ?>
                </th>
                <th style="width: 25%;">
                   <?php echo __('Inventory number'); ?>
                </th>
-               <th style="width: 25%;">
-                  <?php echo __('Name'); ?>
-               </th>
-               <th style="width: 25%;">
-                  <?php echo __('Type'); ?>
-               </th>
+
+               
             </tr>
             <?php
 
@@ -310,8 +312,14 @@ class PluginUseditemsexportExport extends CommonDBTM {
                foreach ($used_items as $item_datas) {
 
                   ?>
-            <tr>
+             <tr>
                <td style="width: 25%;">
+                  <?php echo $item->getTypeName(1); ?>
+               </td>
+               <td style="width: 25%;">
+                  <?php echo $item_datas['name']; ?>
+               </td>               
+			   <td style="width: 25%;">
                   <?php
                   if (isset($item_datas['serial'])) {
                      echo $item_datas['serial'];
@@ -323,12 +331,6 @@ class PluginUseditemsexportExport extends CommonDBTM {
                      echo $item_datas['otherserial'];
                   } ?>
                </td>
-               <td style="width: 25%;">
-                  <?php echo $item_datas['name']; ?>
-               </td>
-               <td style="width: 25%;">
-                  <?php echo $item->getTypeName(1); ?>
-               </td>
             </tr>
                   <?php
 
@@ -337,7 +339,11 @@ class PluginUseditemsexportExport extends CommonDBTM {
 
             ?>
          </table>
-         <br><br><br><br><br>
+         <br><br><br>
+		 Je m’engage à restituer le dit matériel lors des campagnes de renouvellement initiées par le service informatique ou si un changement majeur dans mon contrat l’exige.
+		 <br><br><br><br><br>
+		 <strong>Date</strong> : 
+		  <br><br><br><br><br>
          <table style="border-collapse: collapse;">
             <tr>
                <td style="width: 50%; border-bottom: 1px solid #000000;">
@@ -501,30 +507,6 @@ class PluginUseditemsexportExport extends CommonDBTM {
                }
             }
          }
-      }
-
-      // Consumables
-      $consumables = $DB->request(
-         [
-            'SELECT' => ['name', 'otherserial'],
-            'FROM'   => ConsumableItem::getTable(),
-            'WHERE'  => [
-               'id' => new QuerySubQuery(
-                  [
-                     'SELECT' => 'consumableitems_id',
-                     'FROM'   => Consumable::getTable(),
-                     'WHERE'  => [
-                        'itemtype' => User::class,
-                        'items_id' => $ID
-                     ],
-                  ]
-               )
-            ],
-         ]
-      );
-
-      foreach ($consumables as $data) {
-         $items['ConsumableItem'][] = $data;
       }
 
       return $items;
